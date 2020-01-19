@@ -1,0 +1,35 @@
+---
+title: "Dokumentacja projektu PMLR"
+author: "Paweł Piorun, Ewa Rycaj"
+date: "Warszawa 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<center>
+# Badanie czynników wpływających na rozwody małżeństw
+</center>
+
+## 1. Cel projektu
+
+## 2. Opis danych
+
+## 3. Przygotowanie danych do analizy
+
+## 4. Niezbalansowanie danych
+
+## 5. Wizualna analiza eksploracyjna
+
+## 6. Wnioski z analizy grupowań
+
+## 7. Analiza możliwości redukcji wymiarowości
+
+## 8. Plan walidacji krzyżowej
+
+## 9. Modelowanie w oparciu o standardowe i zespołowe metody
+
+## 10. Walidacja dokładności
+
+## 11. Przyczyny niedokładności i możliwości jej poprawy
