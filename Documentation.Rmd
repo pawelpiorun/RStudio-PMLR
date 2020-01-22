@@ -120,7 +120,11 @@ Poniżej przedstawiono listę pytań w ankiecie:
 
 ## 3. Przygotowanie danych do analizy
 
+Wczytywanie oraz przygotowanie danych zostało zawarte w skrypcie **loadingData.R**:
 
+``` {r, code = readLines("Scripts\\loadingData.R")}
+
+```
 
 ## 4. Niezbalansowanie danych
 
