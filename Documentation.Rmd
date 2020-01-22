@@ -126,6 +126,8 @@ Wczytywanie oraz przygotowanie danych zostało zawarte w skrypcie **loadingData.
 
 ```
 
+***
+
 ## 4. Niezbalansowanie danych
 
 Ze względu na bardzo małe niezbalansowanie danych, postanowiono użyć *upsampling'u* danych, który w tym wypadku doda 2 obserwacje o klasie Divorced.
@@ -134,13 +136,43 @@ Ze względu na bardzo małe niezbalansowanie danych, postanowiono użyć *upsamp
 ```
 
 
+***
+
 ## 5. Wizualna analiza eksploracyjna
 
+Ze względu na dużą ilość parametrów, przy analizie eksploracyjnej posłużono się jedynie box-plotami:
 
+``` {r, code=readLines("Scripts\\visualAnalysis.R")}
+```
+
+***
 
 ## 6. Wnioski z analizy grupowań
 
+Największe wymieszanie wykazują atrybuty nr 6 i 7, co mogło być spowodowane niejasnym sformułowaniem pytania, lub przyjętą konwencją prawdy przez osobę ankietowaną (czy odpowiedź "Tak" znaczy że nie mamy czasu, czy odpowiedź "Nie, nie mamy czasu"):  
+
+6. We don't have time at home as partners.  
+7. We are like two strangers who share the same environment at home rather than family.  
+
+Co więcej, pytania 43, 45, 46 oraz 52 wykazują szeroki zakres odpowiedzi dla klasy Not Divorced:
+
+43. I mostly stay silent to calm the environment a little bit.
+45. I'd rather stay silent than discuss with my spouse.
+46. Even if I'm right in the discussion, I stay silent to hurt my spouse.
+52. I wouldn't hesitate to tell my spouse about her/his inadequacy.
+
+***
+
 ## 7. Analiza możliwości redukcji wymiarowości
+
+W celu redukcji wymiarowości przeprowadzono analizę PCA:
+``` {r, code=readLines("Scripts\\pcaAnalysis.R")}
+```
+
+Powyższa analiza pokazuje, że 99% zmienności parametrów wyjaśnia:
+
+* pierwszych 35 komponentów w przypadku danych znormalizowanych
+* pierwszych 26 komponentów w przypadku danych "surowych"
 
 ## 8. Plan walidacji krzyżowej
 
