@@ -369,15 +369,112 @@ summary {
 </div>
 
 
+<hr />
 <center>
 <div id="badanie-czynników-wpływających-na-rozwody-małżeństw" class="section level1">
 <h1>Badanie czynników wpływających na rozwody małżeństw</h1>
 </center>
 <div id="cel-projektu" class="section level2">
 <h2>1. Cel projektu</h2>
+<ul>
+<li>Analiza bazy danych dotyczącej rozwodów wśród osób ankietowanych,</li>
+<li>Utworzenie modelu opisującego prawdopodobieństwo rozwodu poprzez klasyfikację danych na dwie klasy wyjściowe (Divorced / Not divorced),<br />
+</li>
+<li>Podział zbioru na podzbiór trenujący i testowy,<br />
+</li>
+<li>Uwzględnienie metod zmniejszenia wymiarowości problemu - określenie niepotrzebnych parametrów i usunięcie ich z analizy,<br />
+</li>
+<li>Sprwadzenie modelu oraz jego poprawki w celu ewentualnego zwiększenia dokładności.</li>
+</ul>
+<hr />
 </div>
 <div id="opis-danych" class="section level2">
 <h2>2. Opis danych</h2>
+<p>Dane wejściowe to baza danych z wynikami ankiet dotyczących relacji osób w związkach. Każda ankieta zawiera 54 pytań, z odpowiedziami w formie liczby całkowitej od 0 do 4 (5 wartości). Skala ta jest w przybliżeniu skalą Likerta i przekłada się na odpowiedź w następujący sposób:</p>
+<ul>
+<li>0: Tak<br />
+</li>
+<li>1: Raczej tak<br />
+</li>
+<li>2: Trudno powiedzieć<br />
+</li>
+<li>3: Raczej nie<br />
+</li>
+<li>4: Nie</li>
+</ul>
+<hr />
+<p>Spośród wszystkich ankietowanych <strong>84</strong> osoby były rozwiedzione (49%) oraz <strong>86</strong> osób w małżeństwie (51%). Niezrównoważenie danych jest więc niewielkie.</p>
+<p>Klasyfikację ankietowanych na rozwiedzionych i nierozwiedzionych przedstawia ostatnia kolumna danych zawierająca wartości:</p>
+<ul>
+<li>1 - Divorced</li>
+<li>0 - Married / Not divorced</li>
+</ul>
+<p>Bazę danych wraz z opisem zaczerpnięto z portalu UCI Machine Learning Repository:<br />
+<a href="https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set" class="uri">https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set</a></p>
+<hr />
+<p>Bardziej szczegółowy opis danych można znaleźć w streszczeniu artykułu, który był rezultatem przeprowadzanych ankiet i badań:</p>
+<p>Yöntem, M , Adem, K , İlhan, T , Kılıçarslan, S. (2019). DIVORCE PREDICTION USING CORRELATION BASED FEATURE SELECTION AND ARTIFICIAL NEURAL NETWORKS. Nevşehir Hacı Bektaş Veli University SBE Dergisi, 9 (1), 259-273.<br />
+<a href="https://dergipark.org.tr/tr/pub/nevsosbilen/issue/46568/549416" class="uri">https://dergipark.org.tr/tr/pub/nevsosbilen/issue/46568/549416</a><br />
+<a href="https://dergipark.org.tr/tr/download/article-file/748448" class="uri">https://dergipark.org.tr/tr/download/article-file/748448</a></p>
+<hr />
+<p>Poniżej przedstawiono listę pytań w ankiecie:</p>
+<ol style="list-style-type: decimal">
+<li>If one of us apologizes when our discussion deteriorates, the discussion ends.</li>
+<li>I know we can ignore our differences, even if things get hard sometimes.</li>
+<li>When we need it, we can take our discussions with my spouse from the beginning and correct it.</li>
+<li>When I discuss with my spouse, to contact him will eventually work.</li>
+<li>The time I spent with my wife is special for us.</li>
+<li>We don’t have time at home as partners.</li>
+<li>We are like two strangers who share the same environment at home rather than family.</li>
+<li>I enjoy our holidays with my wife.</li>
+<li>I enjoy traveling with my wife.</li>
+<li>Most of our goals are common to my spouse.</li>
+<li>I think that one day in the future, when I look back, I see that my spouse and I have been in harmony with each other.</li>
+<li>My spouse and I have similar values in terms of personal freedom.</li>
+<li>My spouse and I have similar sense of entertainment.</li>
+<li>Most of our goals for people (children, friends, etc.) are the same.</li>
+<li>Our dreams with my spouse are similar and harmonious.</li>
+<li>We’re compatible with my spouse about what love should be.</li>
+<li>We share the same views about being happy in our life with my spouse</li>
+<li>My spouse and I have similar ideas about how marriage should be</li>
+<li>My spouse and I have similar ideas about how roles should be in marriage</li>
+<li>My spouse and I have similar values in trust.</li>
+<li>I know exactly what my wife likes.</li>
+<li>I know how my spouse wants to be taken care of when she/he sick.</li>
+<li>I know my spouse’s favorite food.</li>
+<li>I can tell you what kind of stress my spouse is facing in her/his life.</li>
+<li>I have knowledge of my spouse’s inner world.</li>
+<li>I know my spouse’s basic anxieties.</li>
+<li>I know what my spouse’s current sources of stress are.</li>
+<li>I know my spouse’s hopes and wishes.</li>
+<li>I know my spouse very well.</li>
+<li>I know my spouse’s friends and their social relationships.</li>
+<li>I feel aggressive when I argue with my spouse.</li>
+<li>When discussing with my spouse, I usually use expressions such as ‘you always’ or ‘you never’ .</li>
+<li>I can use negative statements about my spouse’s personality during our discussions.</li>
+<li>I can use offensive expressions during our discussions.</li>
+<li>I can insult my spouse during our discussions.</li>
+<li>I can be humiliating when we discussions.</li>
+<li>My discussion with my spouse is not calm.</li>
+<li>I hate my spouse’s way of open a subject.</li>
+<li>Our discussions often occur suddenly.</li>
+<li>We’re just starting a discussion before I know what’s going on.</li>
+<li>When I talk to my spouse about something, my calm suddenly breaks.</li>
+<li>When I argue with my spouse, ı only go out and I don’t say a word.</li>
+<li>I mostly stay silent to calm the environment a little bit.</li>
+<li>Sometimes I think it’s good for me to leave home for a while.</li>
+<li>I’d rather stay silent than discuss with my spouse.</li>
+<li>Even if I’m right in the discussion, I stay silent to hurt my spouse.</li>
+<li>When I discuss with my spouse, I stay silent because I am afraid of not being able to control my anger.</li>
+<li>I feel right in our discussions.</li>
+<li>I have nothing to do with what I’ve been accused of.</li>
+<li>I’m not actually the one who’s guilty about what I’m accused of.</li>
+<li>I’m not the one who’s wrong about problems at home.</li>
+<li>I wouldn’t hesitate to tell my spouse about her/his inadequacy.</li>
+<li>When I discuss, I remind my spouse of her/his inadequacy.</li>
+<li>I’m not afraid to tell my spouse about her/his incompetence.</li>
+</ol>
+<hr />
 </div>
 <div id="przygotowanie-danych-do-analizy" class="section level2">
 <h2>3. Przygotowanie danych do analizy</h2>

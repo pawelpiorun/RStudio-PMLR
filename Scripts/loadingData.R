@@ -9,7 +9,7 @@ head(data)
 
 # Prepare output
 data$Class <- as.factor(data$Class)
-levels(data$Class) <- c("Divorced", "Not divorced")
+levels(data$Class) <- c("Not divorced", "Divorced")
 
 # Show data
 head(data)
