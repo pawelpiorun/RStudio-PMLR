@@ -39,7 +39,7 @@ Dane wejściowe to baza danych z wynikami ankiet dotyczących relacji osób w zw
 
 ***
 
-Spośród wszystkich ankietowanych **84** osoby były rozwiedzione (49%) oraz **86** osób w małżeństwie (51%). Niezrównoważenie danych jest więc niewielkie.  
+Spośród wszystkich ankietowanych **84** osoby były rozwiedzione (49%) oraz **86** osób w małżeństwie (51%). Suma obserwacji wynosi **170**. Niezrównoważenie danych jest więc niewielkie.  
   
 Klasyfikację ankietowanych na rozwiedzionych i nierozwiedzionych przedstawia ostatnia kolumna danych zawierająca wartości:  
 
@@ -128,7 +128,15 @@ Wczytywanie oraz przygotowanie danych zostało zawarte w skrypcie **loadingData.
 
 ## 4. Niezbalansowanie danych
 
+Ze względu na bardzo małe niezbalansowanie danych, postanowiono użyć *upsampling'u* danych, który w tym wypadku doda 2 obserwacje o klasie Divorced.
+
+``` {r, code=readLines("Scripts\\balancingData.R")}
+```
+
+
 ## 5. Wizualna analiza eksploracyjna
+
+
 
 ## 6. Wnioski z analizy grupowań
 

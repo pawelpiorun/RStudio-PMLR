@@ -403,7 +403,7 @@ summary {
 <li>4: Nie</li>
 </ul>
 <hr />
-<p>Spośród wszystkich ankietowanych <strong>84</strong> osoby były rozwiedzione (49%) oraz <strong>86</strong> osób w małżeństwie (51%). Niezrównoważenie danych jest więc niewielkie.</p>
+<p>Spośród wszystkich ankietowanych <strong>84</strong> osoby były rozwiedzione (49%) oraz <strong>86</strong> osób w małżeństwie (51%). Suma obserwacji wynosi <strong>170</strong>. Niezrównoważenie danych jest więc niewielkie.</p>
 <p>Klasyfikację ankietowanych na rozwiedzionych i nierozwiedzionych przedstawia ostatnia kolumna danych zawierająca wartości:</p>
 <ul>
 <li>1 - Divorced</li>
@@ -575,6 +575,12 @@ head(data)</code></pre>
 </div>
 <div id="niezbalansowanie-danych" class="section level2">
 <h2>4. Niezbalansowanie danych</h2>
+<p>Ze względu na bardzo małe niezbalansowanie danych, postanowiono użyć <em>upsampling’u</em> danych, który w tym wypadku doda 2 obserwacje o klasie Divorced.</p>
+<pre class="r"><code>#Up sample the data (this will add two more Divorced obs.)
+data &lt;- caret::upSample(x = data[,-55], y = data$Class)
+summary(data$Class)</code></pre>
+<pre><code>## Not divorced     Divorced 
+##           86           86</code></pre>
 </div>
 <div id="wizualna-analiza-eksploracyjna" class="section level2">
 <h2>5. Wizualna analiza eksploracyjna</h2>
