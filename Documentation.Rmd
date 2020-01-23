@@ -164,6 +164,8 @@ Co więcej, pytania 43, 45, 46 oraz 52 wykazują szeroki zakres odpowiedzi dla k
 46. Even if I'm right in the discussion, I stay silent to hurt my spouse.
 52. I wouldn't hesitate to tell my spouse about her/his inadequacy.
 
+Wszystkie parametry skorelowane są dodatnio.
+
 ***
 
 ## 7. Analiza możliwości redukcji wymiarowości
