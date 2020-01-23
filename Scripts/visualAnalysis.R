@@ -9,3 +9,7 @@ for (i in 1:9)
     boxplot(data[[k]] ~ Class, data = data, main=names(data)[k])
   }
 }; rm(i); rm(j); rm(k)
+
+# Show heatmap of correlations
+# The darker the square, the more correlated it is.
+heatmap(cor(data[,-55]), Rowv=NA, Colv=NA)
