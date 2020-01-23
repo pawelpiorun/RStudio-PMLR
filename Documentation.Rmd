@@ -140,7 +140,10 @@ Ze względu na bardzo małe niezbalansowanie danych, postanowiono użyć *upsamp
 
 ## 5. Wizualna analiza eksploracyjna
 
-Ze względu na dużą ilość parametrów, przy analizie eksploracyjnej posłużono się jedynie box-plotami:
+Przy analizie eksploracyjnej posłużono się:
+
+* box-plotami pokazującymi wartości parametrów przyjmowane dla obu klas
+* mapą ciepła pokazującą korelację między parametrami
 
 ``` {r, code=readLines("Scripts\\visualAnalysis.R")}
 ```
@@ -173,6 +176,19 @@ Powyższa analiza pokazuje, że 99% zmienności parametrów wyjaśnia:
 
 * pierwszych 35 komponentów w przypadku danych znormalizowanych
 * pierwszych 26 komponentów w przypadku danych "surowych"
+
+Analiza PCA pokazuje więc, że możemy znacznie zredukować wymiarowość problemu. W przypadku używania części komponentów PC wymagałoby to jednak pracowania na "nowych" przekształconych danych.
+
+W celu wyznaczenia najważniejszych parametrów zastosowano metodę Recursive Feature Elimination (RFE):
+``` {r, code=readLines("Scripts\\parametersReduction.R")}
+```
+
+Metoda RFE sugeruje, że do określenia dokładnego modelu na poziomie ok. **97.5%** wystarczy:
+
+* 5 atrybutów: Atr18, Atr40, Atr11, Atr19, Atr26
+* lub 3 atrybuty: Atr18, Atr20, Atr40
+
+***
 
 ## 8. Plan walidacji krzyżowej
 
