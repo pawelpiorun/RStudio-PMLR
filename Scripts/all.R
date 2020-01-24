@@ -1,3 +1,4 @@
+# Peforming all scripts
 source("Scripts\\loadingData.R", echo = TRUE)
 source("Scripts\\balancingData.R", echo = TRUE)
 source("Scripts\\visualAnalysis.R", echo = TRUE)

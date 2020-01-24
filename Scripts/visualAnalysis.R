@@ -5,6 +5,7 @@ for (i in 1:9)
   par(mfrow=c(2,3))
   for (j in 1:6)
   {
+    # Show plot
     k = (i-1)*6+j
     boxplot(data[[k]] ~ Class, data = data, main=names(data)[k])
   }
