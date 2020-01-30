@@ -192,10 +192,257 @@ Metoda RFE sugeruje, że do określenia dokładnego modelu na poziomie ok. **97.
 
 ***
 
-## 8. Plan walidacji krzyżowej
+## 8. Podział danych i modelowanie
 
-## 9. Modelowanie w oparciu o standardowe i zespołowe metody
+W projekcie zostały przeprowadzone dwa różne sposoby podziału danych. Podział losowy na dane treningowe i testowe oraz walidacja krzyżowa metodą Leave One Out.
+Zastosowano obie metody, żeby zaobserwować różnice w dokładności modelowania dla tych samych algorytmów przy różnym podziale.
+
+Modelowanie zostało przeprowadzone czterema różnymi metodami: cforest- Conditional Random Forest, ctree - Conditional Inference Trees, xgb - Extreme Gradient Boosting, rf - Random Forest 
+
+```{r, code=readLines("Scripts\\modelling.R")}
+
+```
+
+***
 
 ## 10. Walidacja dokładności
 
+W celu oceny dokładności wszystkich modeli zastosowano fukcję confusionMatrix.
+
+```{r, code=readLines("Scripts\\prediction.R")}
+
+```
+
+Każdy z algorytmów został oceniony za pomocą takiej samej metryki. Wyniki walidacji:
+
+LOSOWY PODZIAŁ DANYCH NA TESTOWE I TRENINGOWE
+
+1. Conditional Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+      
+2. Conditional Inference Trees
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+      
+      
+3. Extreme Gradient Boosting
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+
+
+4. Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+
+
+WALIDACJA KRZYŻOWA LEAVE ONE OUT
+
+1. Conditional Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced          258       14
+  Divorced                0      244
+                                          
+               Accuracy : 0.9729          
+                 95% CI : (0.9549, 0.9851)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9457          
+                                          
+ Mcnemar's Test P-Value : 0.000512        
+                                          
+            Sensitivity : 1.0000          
+            Specificity : 0.9457          
+         Pos Pred Value : 0.9485          
+         Neg Pred Value : 1.0000          
+             Prevalence : 0.5000          
+         Detection Rate : 0.5000          
+   Detection Prevalence : 0.5271          
+      Balanced Accuracy : 0.9729          
+
+2. Conditional Inference Trees
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced          249       16
+  Divorced                9      242
+                                          
+               Accuracy : 0.9516          
+                 95% CI : (0.9293, 0.9684)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : <2e-16          
+                                          
+                  Kappa : 0.9031          
+                                          
+ Mcnemar's Test P-Value : 0.2301          
+                                          
+            Sensitivity : 0.9651          
+            Specificity : 0.9380          
+         Pos Pred Value : 0.9396          
+         Neg Pred Value : 0.9641          
+             Prevalence : 0.5000          
+         Detection Rate : 0.4826          
+   Detection Prevalence : 0.5136          
+      Balanced Accuracy : 0.9516          
+
+3. Extreme Gradient Boosting
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced         9279      330
+  Divorced                9     8958
+                                          
+               Accuracy : 0.9818          
+                 95% CI : (0.9797, 0.9836)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9635          
+                                          
+ Mcnemar's Test P-Value : < 2.2e-16       
+                                          
+            Sensitivity : 0.9990          
+            Specificity : 0.9645          
+         Pos Pred Value : 0.9657          
+         Neg Pred Value : 0.9990          
+             Prevalence : 0.5000          
+         Detection Rate : 0.4995          
+   Detection Prevalence : 0.5173          
+      Balanced Accuracy : 0.9818          
+
+
+4. Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced          257        9
+  Divorced                1      249
+                                          
+               Accuracy : 0.9806          
+                 95% CI : (0.9646, 0.9907)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : < 2e-16         
+                                          
+                  Kappa : 0.9612          
+                                          
+ Mcnemar's Test P-Value : 0.02686         
+                                          
+            Sensitivity : 0.9961          
+            Specificity : 0.9651          
+         Pos Pred Value : 0.9662          
+         Neg Pred Value : 0.9960          
+             Prevalence : 0.5000          
+         Detection Rate : 0.4981          
+   Detection Prevalence : 0.5155          
+      Balanced Accuracy : 0.9806          
+      
+
 ## 11. Przyczyny niedokładności i możliwości jej poprawy
+
+Dla zastosowań w tym projekcie najdokładniejszy okazał się model Extreme Gradient Boosting przy walidacji krzyżowej Leave One Out.
+Dobre statystyki ma też algorytm Random Forest, który okazał się lepszy od algorytmu Conditional Random Forest, mimo iż w teorii powinna być to o wiele dokładniejsza metoda
+
+Dokładność dla każdej metody modelowania (oprócz algorytmu ctrees) była lepsza dla walidacji krzyżowej niż losowego podziału danych na testowe i treningowe.
