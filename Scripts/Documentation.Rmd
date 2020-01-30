@@ -1,0 +1,448 @@
+---
+title: "Dokumentacja projektu PMLR"
+author: "Paweł Piorun, Ewa Rycaj"
+date: "Warszawa 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+  
+<center>
+# Badanie czynników wpływających na rozwody małżeństw
+</center>
+
+  
+  
+## 1. Cel projektu
+
+* Analiza bazy danych dotyczącej rozwodów wśród osób ankietowanych,
+* Utworzenie modelu opisującego prawdopodobieństwo rozwodu poprzez klasyfikację danych na dwie klasy wyjściowe (Divorced / Not divorced),  
+* Podział zbioru na podzbiór trenujący i testowy,  
+* Uwzględnienie metod zmniejszenia wymiarowości problemu - określenie niepotrzebnych parametrów i usunięcie ich z analizy,  
+* Sprwadzenie modelu oraz jego poprawki w celu ewentualnego zwiększenia dokładności.  
+
+***
+  
+## 2. Opis danych
+
+Dane wejściowe to baza danych z wynikami ankiet dotyczących relacji osób w związkach. Każda ankieta zawiera 54 pytań, z odpowiedziami w formie liczby całkowitej od 0 do 4 (5 wartości). Skala ta jest w przybliżeniu skalą Likerta i przekłada się na odpowiedź w następujący sposób:  
+
+* 0: Tak  
+* 1: Raczej tak  
+* 2: Trudno powiedzieć   
+* 3: Raczej nie  
+* 4: Nie  
+
+***
+
+Spośród wszystkich ankietowanych **84** osoby były rozwiedzione (49%) oraz **86** osób w małżeństwie (51%). Suma obserwacji wynosi **170**. Niezrównoważenie danych jest więc niewielkie.  
+  
+Klasyfikację ankietowanych na rozwiedzionych i nierozwiedzionych przedstawia ostatnia kolumna danych zawierająca wartości:  
+
+* 1 - Divorced
+* 0 - Married / Not divorced
+
+Bazę danych wraz z opisem zaczerpnięto z portalu UCI Machine Learning Repository:  
+https://archive.ics.uci.edu/ml/datasets/Divorce+Predictors+data+set
+
+***
+
+Bardziej szczegółowy opis danych można znaleźć w streszczeniu artykułu, który był rezultatem przeprowadzanych ankiet i badań:  
+
+Yöntem, M , Adem, K , İlhan, T , Kılıçarslan, S. (2019). DIVORCE PREDICTION USING CORRELATION BASED FEATURE SELECTION AND ARTIFICIAL NEURAL NETWORKS. Nevşehir Hacı Bektaş Veli University SBE Dergisi, 9 (1), 259-273.  
+https://dergipark.org.tr/tr/pub/nevsosbilen/issue/46568/549416  
+https://dergipark.org.tr/tr/download/article-file/748448  
+
+***
+
+Poniżej przedstawiono listę pytań w ankiecie:
+
+1. If one of us apologizes when our discussion deteriorates, the discussion ends.
+2. I know we can ignore our differences, even if things get hard sometimes.
+3. When we need it, we can take our discussions with my spouse from the beginning and correct it.
+4. When I discuss with my spouse, to contact him will eventually work.
+5. The time I spent with my wife is special for us.
+6. We don't have time at home as partners.
+7. We are like two strangers who share the same environment at home rather than family.
+8. I enjoy our holidays with my wife.
+9. I enjoy traveling with my wife.
+10. Most of our goals are common to my spouse.
+11. I think that one day in the future, when I look back, I see that my spouse and I have been in harmony with each other.
+12. My spouse and I have similar values in terms of personal freedom.
+13. My spouse and I have similar sense of entertainment.
+14. Most of our goals for people (children, friends, etc.) are the same.
+15. Our dreams with my spouse are similar and harmonious.
+16. We're compatible with my spouse about what love should be.
+17. We share the same views about being happy in our life with my spouse
+18. My spouse and I have similar ideas about how marriage should be
+19. My spouse and I have similar ideas about how roles should be in marriage
+20. My spouse and I have similar values in trust.
+21. I know exactly what my wife likes.
+22. I know how my spouse wants to be taken care of when she/he sick.
+23. I know my spouse's favorite food.
+24. I can tell you what kind of stress my spouse is facing in her/his life.
+25. I have knowledge of my spouse's inner world.
+26. I know my spouse's basic anxieties.
+27. I know what my spouse's current sources of stress are.
+28. I know my spouse's hopes and wishes.
+29. I know my spouse very well.
+30. I know my spouse's friends and their social relationships.
+31. I feel aggressive when I argue with my spouse.
+32. When discussing with my spouse, I usually use expressions such as ‘you always’ or ‘you never’ .
+33. I can use negative statements about my spouse's personality during our discussions.
+34. I can use offensive expressions during our discussions.
+35. I can insult my spouse during our discussions.
+36. I can be humiliating when we discussions.
+37. My discussion with my spouse is not calm.
+38. I hate my spouse's way of open a subject.
+39. Our discussions often occur suddenly.
+40. We're just starting a discussion before I know what's going on.
+41. When I talk to my spouse about something, my calm suddenly breaks.
+42. When I argue with my spouse, ı only go out and I don't say a word.
+43. I mostly stay silent to calm the environment a little bit.
+44. Sometimes I think it's good for me to leave home for a while.
+45. I'd rather stay silent than discuss with my spouse.
+46. Even if I'm right in the discussion, I stay silent to hurt my spouse.
+47. When I discuss with my spouse, I stay silent because I am afraid of not being able to control my anger.
+48. I feel right in our discussions.
+49. I have nothing to do with what I've been accused of.
+50. I'm not actually the one who's guilty about what I'm accused of.
+51. I'm not the one who's wrong about problems at home.
+52. I wouldn't hesitate to tell my spouse about her/his inadequacy.
+53. When I discuss, I remind my spouse of her/his inadequacy.
+54. I'm not afraid to tell my spouse about her/his incompetence. 
+
+***
+
+## 3. Przygotowanie danych do analizy
+
+Wczytywanie oraz przygotowanie danych zostało zawarte w skrypcie **loadingData.R**:
+
+``` {r, code = readLines("Scripts\\loadingData.R")}
+
+```
+
+***
+
+## 4. Niezbalansowanie danych
+
+Ze względu na bardzo małe niezbalansowanie danych, postanowiono użyć *upsampling'u* danych, który w tym wypadku doda 2 obserwacje o klasie Divorced.
+
+``` {r, code=readLines("Scripts\\balancingData.R")}
+```
+
+
+***
+
+## 5. Wizualna analiza eksploracyjna
+
+Przy analizie eksploracyjnej posłużono się:
+
+* box-plotami pokazującymi wartości parametrów przyjmowane dla obu klas
+* mapą ciepła pokazującą korelację między parametrami
+
+``` {r, code=readLines("Scripts\\visualAnalysis.R")}
+```
+
+***
+
+## 6. Wnioski z analizy grupowań
+
+Największe wymieszanie wykazują atrybuty nr 6 i 7, co mogło być spowodowane niejasnym sformułowaniem pytania, lub przyjętą konwencją prawdy przez osobę ankietowaną (czy odpowiedź "Tak" znaczy że nie mamy czasu, czy odpowiedź "Nie, nie mamy czasu"):  
+
+6. We don't have time at home as partners.  
+7. We are like two strangers who share the same environment at home rather than family.  
+
+Co więcej, pytania 43, 45, 46 oraz 52 wykazują szeroki zakres odpowiedzi dla klasy Not Divorced:
+
+43. I mostly stay silent to calm the environment a little bit.
+45. I'd rather stay silent than discuss with my spouse.
+46. Even if I'm right in the discussion, I stay silent to hurt my spouse.
+52. I wouldn't hesitate to tell my spouse about her/his inadequacy.
+
+Wszystkie parametry skorelowane są dodatnio.
+
+***
+
+## 7. Analiza możliwości redukcji wymiarowości
+
+W celu redukcji wymiarowości przeprowadzono analizę PCA:
+``` {r, code=readLines("Scripts\\pcaAnalysis.R")}
+```
+
+Powyższa analiza pokazuje, że 99% zmienności parametrów wyjaśnia:
+
+* pierwszych 35 komponentów w przypadku danych znormalizowanych
+* pierwszych 26 komponentów w przypadku danych "surowych"
+
+Analiza PCA pokazuje więc, że możemy znacznie zredukować wymiarowość problemu. W przypadku używania części komponentów PC wymagałoby to jednak pracowania na "nowych" przekształconych danych.
+
+W celu wyznaczenia najważniejszych parametrów zastosowano metodę Recursive Feature Elimination (RFE):
+``` {r, code=readLines("Scripts\\parametersReduction.R")}
+```
+
+Metoda RFE sugeruje, że do określenia dokładnego modelu na poziomie ok. **97.5%** wystarczy:
+
+* 5 atrybutów: Atr18, Atr40, Atr11, Atr19, Atr26
+* lub 3 atrybuty: Atr18, Atr20, Atr40
+
+***
+
+## 8. Podział danych i modelowanie
+
+W projekcie zostały przeprowadzone dwa różne sposoby podziału danych. Podział losowy na dane treningowe i testowe oraz walidacja krzyżowa metodą Leave One Out.
+Zastosowano obie metody, żeby zaobserwować różnice w dokładności modelowania dla tych samych algorytmów przy różnym podziale.
+
+Modelowanie zostało przeprowadzone czterema różnymi metodami: cforest- Conditional Random Forest, ctree - Conditional Inference Trees, xgb - Extreme Gradient Boosting, rf - Random Forest 
+
+```{r, code=readLines("Scripts\\modelling.R")}
+
+```
+
+***
+
+## 10. Walidacja dokładności
+
+W celu oceny dokładności wszystkich modeli zastosowano fukcję confusionMatrix.
+
+```{r, code=readLines("Scripts\\prediction.R")}
+
+```
+
+Każdy z algorytmów został oceniony za pomocą takiej samej metryki. Wyniki walidacji:
+
+LOSOWY PODZIAŁ DANYCH NA TESTOWE I TRENINGOWE
+
+1. Conditional Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+      
+2. Conditional Inference Trees
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+      
+      
+3. Extreme Gradient Boosting
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+
+
+4. Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced           24        1
+  Divorced                1       24
+                                          
+               Accuracy : 0.96            
+                 95% CI : (0.8629, 0.9951)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : 1.133e-12       
+                                          
+                  Kappa : 0.92            
+                                          
+ Mcnemar's Test P-Value : 1               
+                                          
+            Sensitivity : 0.96            
+            Specificity : 0.96            
+         Pos Pred Value : 0.96            
+         Neg Pred Value : 0.96            
+             Prevalence : 0.50            
+         Detection Rate : 0.48            
+   Detection Prevalence : 0.50            
+      Balanced Accuracy : 0.96            
+
+
+WALIDACJA KRZYŻOWA LEAVE ONE OUT
+
+1. Conditional Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced          258       14
+  Divorced                0      244
+                                          
+               Accuracy : 0.9729          
+                 95% CI : (0.9549, 0.9851)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9457          
+                                          
+ Mcnemar's Test P-Value : 0.000512        
+                                          
+            Sensitivity : 1.0000          
+            Specificity : 0.9457          
+         Pos Pred Value : 0.9485          
+         Neg Pred Value : 1.0000          
+             Prevalence : 0.5000          
+         Detection Rate : 0.5000          
+   Detection Prevalence : 0.5271          
+      Balanced Accuracy : 0.9729          
+
+2. Conditional Inference Trees
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced          249       16
+  Divorced                9      242
+                                          
+               Accuracy : 0.9516          
+                 95% CI : (0.9293, 0.9684)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : <2e-16          
+                                          
+                  Kappa : 0.9031          
+                                          
+ Mcnemar's Test P-Value : 0.2301          
+                                          
+            Sensitivity : 0.9651          
+            Specificity : 0.9380          
+         Pos Pred Value : 0.9396          
+         Neg Pred Value : 0.9641          
+             Prevalence : 0.5000          
+         Detection Rate : 0.4826          
+   Detection Prevalence : 0.5136          
+      Balanced Accuracy : 0.9516          
+
+3. Extreme Gradient Boosting
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced         9279      330
+  Divorced                9     8958
+                                          
+               Accuracy : 0.9818          
+                 95% CI : (0.9797, 0.9836)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : < 2.2e-16       
+                                          
+                  Kappa : 0.9635          
+                                          
+ Mcnemar's Test P-Value : < 2.2e-16       
+                                          
+            Sensitivity : 0.9990          
+            Specificity : 0.9645          
+         Pos Pred Value : 0.9657          
+         Neg Pred Value : 0.9990          
+             Prevalence : 0.5000          
+         Detection Rate : 0.4995          
+   Detection Prevalence : 0.5173          
+      Balanced Accuracy : 0.9818          
+
+
+4. Random Forest
+
+Confusion Matrix and Statistics
+
+              Reference
+Prediction     Not divorced Divorced
+  Not divorced          257        9
+  Divorced                1      249
+                                          
+               Accuracy : 0.9806          
+                 95% CI : (0.9646, 0.9907)
+    No Information Rate : 0.5             
+    P-Value [Acc > NIR] : < 2e-16         
+                                          
+                  Kappa : 0.9612          
+                                          
+ Mcnemar's Test P-Value : 0.02686         
+                                          
+            Sensitivity : 0.9961          
+            Specificity : 0.9651          
+         Pos Pred Value : 0.9662          
+         Neg Pred Value : 0.9960          
+             Prevalence : 0.5000          
+         Detection Rate : 0.4981          
+   Detection Prevalence : 0.5155          
+      Balanced Accuracy : 0.9806          
+      
+
+## 11. Przyczyny niedokładności i możliwości jej poprawy
+
+Dla zastosowań w tym projekcie najdokładniejszy okazał się model Extreme Gradient Boosting przy walidacji krzyżowej Leave One Out.
+Dobre statystyki ma też algorytm Random Forest, który okazał się lepszy od algorytmu Conditional Random Forest, mimo iż w teorii powinna być to o wiele dokładniejsza metoda
+
+Dokładność dla każdej metody modelowania (oprócz algorytmu ctrees) była lepsza dla walidacji krzyżowej niż losowego podziału danych na testowe i treningowe.
