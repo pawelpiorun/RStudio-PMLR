@@ -7,7 +7,7 @@ print(results)
 plot(results, type=c("g", "o"))
 
 # Use RFE with different function
-results2 <- caret::rfe(data$Class ~ ., data, sizes=c(3,5,7,9,13,20,30,40,50),
+results2 <- caret::rfe(data$Class ~ ., data, sizes=c(1,2,3,5,7,9,13,20,30,40,50),
                       rfeControl=caret::rfeControl(functions=caret::nbFuncs,
                                                    method="cv", number=10, verbose=FALSE));
 print(results2)
