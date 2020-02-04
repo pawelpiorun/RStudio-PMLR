@@ -182,7 +182,7 @@ Powyższa analiza pokazuje, że 99% zmienności parametrów wyjaśnia:
 Analiza PCA pokazuje więc, że możemy znacznie zredukować wymiarowość problemu. W przypadku używania części komponentów PC wymagałoby to jednak pracowania na "nowych" przekształconych danych.
 
 W celu wyznaczenia najważniejszych parametrów zastosowano metodę Recursive Feature Elimination (RFE):
-``` {r, code=readLines("Scripts\\parametersReduction.R")}
+``` {r, code=readLines("Scripts\\parametersReduction.R"), message = FALSE, warning = FALSE}
 ```
 
 Metoda RFE sugeruje, że do określenia dokładnego modelu na poziomie ok. **97.5%** wystarczy:
@@ -192,10 +192,41 @@ Metoda RFE sugeruje, że do określenia dokładnego modelu na poziomie ok. **97.
 
 ***
 
-## 8. Plan walidacji krzyżowej
+## 8. Podział danych i modelowanie
 
-## 9. Modelowanie w oparciu o standardowe i zespołowe metody
+W projekcie zostały przeprowadzone dwa różne sposoby podziału danych. Podział losowy na dane treningowe i testowe oraz walidacja krzyżowa metodą Leave One Out.
+Zastosowano obie metody, żeby zaobserwować różnice w dokładności modelowania dla tych samych algorytmów przy różnym podziale.
+
+Modelowanie zostało przeprowadzone czterema różnymi metodami: 
+
+* cforest- Conditional Random Forest,  
+* ctree - Conditional Inference Trees,  
+* xgb - Extreme Gradient Boosting,  
+* rf - Random Forest 
+
+```{r, code=readLines("Scripts\\modelling.R")}
+
+```
+
+***
 
 ## 10. Walidacja dokładności
 
+W celu oceny dokładności wszystkich modeli zastosowano fukcję confusionMatrix, wykorzystując losowy podział danych na testowe i treningowe oraz walidację krzyżową *"leave one out"*.  
+  
+Każdy z algorytmów został oceniony za pomocą takiej samej metryki. Wyniki walidacji przedstawiono poniżej.
+
+```{r, code=readLines("Scripts\\prediction.R")}
+
+```
+
+***
+
 ## 11. Przyczyny niedokładności i możliwości jej poprawy
+  
+Dla zastosowań w tym projekcie najdokładniejszy okazał się model Extreme Gradient Boosting przy walidacji krzyżowej Leave One Out.  
+Dobre statystyki ma też algorytm Random Forest, który okazał się lepszy od algorytmu Conditional Random Forest, mimo iż w teorii powinna być to o wiele dokładniejsza metoda.  
+  
+Dokładność dla każdej metody modelowania (oprócz algorytmu ctrees) była lepsza dla walidacji krzyżowej niż losowego podziału danych na testowe i treningowe.
+  
+***
